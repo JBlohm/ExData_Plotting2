@@ -17,7 +17,7 @@ NEI <- NEI[NEI$fips=="24510" | NEI$fips=="06037",]
 ## Subset SCC for motor vehicle related emission sectors (EI.Sector contains word "Mobile")
 SCC_mobile <- SCC[grepl(".*Mobile.*", SCC$EI.Sector),]
 
-## Subset for Coal Combustion related sources (NEI$SCC in SCC_coal$SCC)
+## Subset for motor vehicle related sources (NEI$SCC in SCC_mobile$SCC)
 NEI_mobile <- NEI[NEI$SCC %in% SCC_mobile$SCC,]
 
 ## Aggregate by year and type
