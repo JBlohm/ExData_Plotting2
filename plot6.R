@@ -22,19 +22,15 @@ NEI_mobile <- NEI[NEI$SCC %in% SCC_mobile$SCC,]
 
 ## Aggregate by year and type
 total_emissions_per_year <- aggregate( Emissions ~ year + fips, NEI_mobile, sum)
-
-city_names <- list(
-  '24510'="Baltimore City",
-  '06037'="Los Angeles County"
-)
-
-city_labeller <- function(variable,value){
-  return(city_names[value])
-}
+## Add appropriate city names
+total_emissions_per_year[total_emissions_per_year$fips=="24510",]$fips <- "Baltimore City"
+total_emissions_per_year[total_emissions_per_year$fips=="06037",]$fips <- "Los Angeles County"
 
 png(filename = "plot6.png", width = 480, height = 480)
 p <- ggplot(total_emissions_per_year, aes(x=year))
 p <- p + geom_line(aes(y=Emissions))
-p <- p + facet_grid(. ~ fips, labeller = city_labeller)
+p <- p + facet_grid(. ~ fips)
+p <- p + labs(x="Year", y=expression("Total PM"[2.5]*" Emission (tons)"))
+p <- p + labs(title=expression("PM"[2.5]*" Motor Vehicle Source Emissions City Comparison"))
 print(p)
 dev.off()
