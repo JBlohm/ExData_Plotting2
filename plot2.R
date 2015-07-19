@@ -10,3 +10,10 @@
 NEI <- readRDS("summarySCC_PM25.rds")
 SCC <- readRDS("Source_Classification_Code.rds")
 
+## Subset for Baltimore City, Maryland (fips == "24510")
+NEI <- NEI[NEI$fips=="24510",]
+total_emissions_per_year <- aggregate( Emissions ~ year, NEI, sum)
+
+png(filename = "plot2.png", width = 480, height = 480)
+plot(total_emissions_per_year$year, total_emissions_per_year$Emissions, type="l", main="Total Emissions PM2.5 Baltimore City, Maryland", xlab="Year", ylab="Emissions (tons)")
+dev.off()
